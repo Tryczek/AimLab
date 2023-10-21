@@ -1,8 +1,9 @@
 import React from 'react'
+import Grid from './compo/Grid'
 
 const App = () => {
   return (
-    <div>App</div>
+    <div><Grid howFast={250} rows={9} columns={9}></Grid></div>
   )
 }
 
