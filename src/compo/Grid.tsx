@@ -74,7 +74,7 @@ const Grid: React.FC<GridProps> = ({ rows, columns, howFast }) => {
                 className={`cell ${selectedCells.has(index) ? 'selected' : 'unselected'}`}
                 onClick={() => toggleCell(index)}
               >
-                {/* Tutaj możesz dodać zawartość komórki */}
+                
               </div>
             );
           })}
