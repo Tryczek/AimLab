@@ -40,13 +40,20 @@ const Grid: React.FC<GridProps> = ({ rows, columns, howFast }) => {
   useEffect(() => {
     const interval = setInterval(() => {
       if (!didLost) {
-        const randomIndex = Math.floor(Math.random() * (rows * columns));
-        toggleCell(randomIndex);
+        const unselectedCells = Array.from({ length: rows * columns }, (_, i) => i).filter(
+          (index) => !selectedCells.has(index)
+        );
+
+        if (unselectedCells.length > 0) {
+          const randomIndex = unselectedCells[Math.floor(Math.random() * unselectedCells.length)];
+          toggleCell(randomIndex);
+        }
       }
     }, howFast);
 
     return () => clearInterval(interval);
-  }, [rows, columns, didLost, howFast]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rows, columns, didLost, howFast, selectedCells]);
 
   const cellCount = selectedCells.size;
 
@@ -54,7 +61,9 @@ const Grid: React.FC<GridProps> = ({ rows, columns, howFast }) => {
     <div className="grid">
       <div className="cell-count">Selected: {cellCount}/5</div>
       <div className="cell-count">Did Lost: {didLost ? 'Yes' : 'No'}</div>
-      <button className="btn btn-primary" onClick={resetGame}>Reset Game</button>
+      <button className="btn btn-primary" onClick={resetGame}>
+        Reset Game
+      </button>
       {Array.from({ length: rows }, (_, i) => (
         <div key={i} className="row">
           {Array.from({ length: columns }, (_, j) => {
